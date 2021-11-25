@@ -1,1 +1,16 @@
+server:
+  error:
+    include-stacktrace: on_param
 
+spring:
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/movies
+    username: admin
+    password: admin1234
+    driverClassName: org.postgresql.Driver
