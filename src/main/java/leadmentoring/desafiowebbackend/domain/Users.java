@@ -1,9 +1,13 @@
 package leadmentoring.desafiowebbackend.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 
@@ -41,13 +45,16 @@ public class Users {
 
     @ManyToOne
     @JoinColumn(name = "language_id")
-    @NotEmpty(message = "User language cannot be empty")
+    @JsonBackReference
+    @Valid
     private Language language;
 
     @NotNull(message = "Roles cannot be null")
     private String roles;
 
-    private LocalDateTime createdAt = LocalDateTime.now();
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
-    private LocalDateTime updateAt = LocalDateTime.now();
+    @UpdateTimestamp
+    private LocalDateTime updateAt;
 }

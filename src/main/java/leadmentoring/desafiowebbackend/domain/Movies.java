@@ -1,6 +1,9 @@
 package leadmentoring.desafiowebbackend.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -39,10 +42,13 @@ public class Movies {
 
     @ManyToOne
     @JoinColumn(name = "language_id")
+    @JsonBackReference
     @NotEmpty(message = "Movie language cannot be empty")
     private Language language;
 
-    private LocalDateTime createdAt = LocalDateTime.now();
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
-    private LocalDateTime updateAt = LocalDateTime.now();
+    @UpdateTimestamp
+    private LocalDateTime updateAt;
 }

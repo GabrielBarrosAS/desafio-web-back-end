@@ -1,6 +1,9 @@
 package leadmentoring.desafiowebbackend.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -24,15 +27,20 @@ public class Language {
     private String tag;
 
     @OneToMany(mappedBy = "language")
+    @JsonManagedReference
     private List<Users> usersList;
 
     @OneToMany(mappedBy = "language")
+    @JsonManagedReference
     private List<Category> categoryList;
 
     @OneToMany(mappedBy = "language")
+    @JsonManagedReference
     private List<Movies> moviesList;
 
-    private LocalDateTime createdAt = LocalDateTime.now();
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
-    private LocalDateTime updateAt = LocalDateTime.now();
+    @UpdateTimestamp
+    private LocalDateTime updateAt;
 }
