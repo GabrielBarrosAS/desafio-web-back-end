@@ -57,4 +57,7 @@ public class Users {
 
     @UpdateTimestamp
     private LocalDateTime updateAt;
+
+    @Column(nullable=false, columnDefinition = "BOOLEAN DEFAULT TRUE")
+    private boolean active;
 }

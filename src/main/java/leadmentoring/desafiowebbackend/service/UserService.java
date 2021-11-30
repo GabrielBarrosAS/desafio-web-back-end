@@ -55,6 +55,8 @@ public class UserService {
             throw new BadRequestException("Cpf registered in the system");
         }
 
+        newUser.setActive(true);
+
         return usersRepository.save(newUser);
     }
 
@@ -84,7 +86,9 @@ public class UserService {
     public Users delete(long id){
         Users user = findById(id);
 
-        usersRepository.delete(user);
+        user.setActive(false);
+
+        usersRepository.save(user);
 
         return user;
     }
