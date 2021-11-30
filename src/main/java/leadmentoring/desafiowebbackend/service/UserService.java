@@ -2,7 +2,7 @@ package leadmentoring.desafiowebbackend.service;
 
 import leadmentoring.desafiowebbackend.domain.Language;
 import leadmentoring.desafiowebbackend.domain.Users;
-import leadmentoring.desafiowebbackend.dtos.UsersDTO;
+import leadmentoring.desafiowebbackend.dtos.UsersPostDTO;
 import leadmentoring.desafiowebbackend.exception.BadRequestException;
 import leadmentoring.desafiowebbackend.mappers.UsersMapper;
 import leadmentoring.desafiowebbackend.repository.LanguageRepository;
@@ -31,9 +31,9 @@ public class UserService {
                 .orElseThrow(() -> new BadRequestException("User not found"));
     }
 
-    public Users save(UsersDTO usersDTO){
+    public Users save(UsersPostDTO usersPostDTO){
 
-        Users newUser = UsersMapper.INSTANCE.toUsers(usersDTO);
+        Users newUser = UsersMapper.INSTANCE.toUsers(usersPostDTO);
 
         Optional<Language> language = languageRepository.findById(newUser.getLanguage().getId());
 

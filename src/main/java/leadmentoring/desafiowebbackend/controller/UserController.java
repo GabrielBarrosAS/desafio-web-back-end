@@ -2,7 +2,7 @@ package leadmentoring.desafiowebbackend.controller;
 
 import leadmentoring.desafiowebbackend.domain.Language;
 import leadmentoring.desafiowebbackend.domain.Users;
-import leadmentoring.desafiowebbackend.dtos.UsersDTO;
+import leadmentoring.desafiowebbackend.dtos.UsersPostDTO;
 import leadmentoring.desafiowebbackend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -32,8 +32,8 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<Users> save(@RequestBody @Valid UsersDTO usersDTO){
-        Users user = userService.save(usersDTO);
+    public ResponseEntity<Users> save(@RequestBody @Valid UsersPostDTO usersPostDTO){
+        Users user = userService.save(usersPostDTO);
         log.info(user);
         return new ResponseEntity(user, HttpStatus.CREATED);
     }

@@ -12,7 +12,7 @@ import javax.validation.constraints.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UsersDTO {
+public class UsersPostDTO {
 
     @NotEmpty(message = "Username cannot be empty")
     private String name;

@@ -1,9 +1,7 @@
 package leadmentoring.desafiowebbackend.controller;
 
 import leadmentoring.desafiowebbackend.domain.Language;
-import leadmentoring.desafiowebbackend.domain.Users;
-import leadmentoring.desafiowebbackend.dtos.LanguageDTO;
-import leadmentoring.desafiowebbackend.dtos.UsersDTO;
+import leadmentoring.desafiowebbackend.dtos.LanguagePostDTO;
 import leadmentoring.desafiowebbackend.service.LanguageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -12,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -34,8 +31,8 @@ public class LanguageController {
     }
 
     @PostMapping
-    public ResponseEntity<Language> save(@RequestBody @Valid LanguageDTO languageDTO){
-        Language language = languageService.save(languageDTO);
+    public ResponseEntity<Language> save(@RequestBody @Valid LanguagePostDTO languagePostDTO){
+        Language language = languageService.save(languagePostDTO);
         log.info(language);
         return new ResponseEntity(language, HttpStatus.CREATED);
     }

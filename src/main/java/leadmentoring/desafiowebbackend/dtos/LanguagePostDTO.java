@@ -9,7 +9,7 @@ import javax.validation.constraints.NotEmpty;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class LanguageDTO {
+public class LanguagePostDTO {
 
     @NotEmpty(message = "Language name cannot be empty")
     private String name;

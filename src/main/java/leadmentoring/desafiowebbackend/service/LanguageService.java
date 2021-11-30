@@ -1,7 +1,7 @@
 package leadmentoring.desafiowebbackend.service;
 
 import leadmentoring.desafiowebbackend.domain.Language;
-import leadmentoring.desafiowebbackend.dtos.LanguageDTO;
+import leadmentoring.desafiowebbackend.dtos.LanguagePostDTO;
 import leadmentoring.desafiowebbackend.exception.BadRequestException;
 import leadmentoring.desafiowebbackend.mappers.LanguageMapper;
 import leadmentoring.desafiowebbackend.repository.LanguageRepository;
@@ -25,9 +25,9 @@ public class LanguageService {
                 .orElseThrow(() -> new BadRequestException("Language not found"));
     }
 
-    public Language save(LanguageDTO languageDTO){
+    public Language save(LanguagePostDTO languagePostDTO){
 
-        Language language = languageRepository.save(LanguageMapper.INSTANCE.toLanguage(languageDTO));
+        Language language = languageRepository.save(LanguageMapper.INSTANCE.toLanguage(languagePostDTO));
 
         return language;
     }
