@@ -2,6 +2,7 @@ package leadmentoring.desafiowebbackend.service;
 
 import leadmentoring.desafiowebbackend.domain.Language;
 import leadmentoring.desafiowebbackend.domain.Users;
+import leadmentoring.desafiowebbackend.dtos.UserPutDTO;
 import leadmentoring.desafiowebbackend.dtos.UsersPostDTO;
 import leadmentoring.desafiowebbackend.exception.BadRequestException;
 import leadmentoring.desafiowebbackend.mappers.UsersMapper;
@@ -9,6 +10,7 @@ import leadmentoring.desafiowebbackend.repository.LanguageRepository;
 import leadmentoring.desafiowebbackend.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -54,6 +56,29 @@ public class UserService {
         }
 
         return usersRepository.save(newUser);
+    }
+
+    public Users update(UserPutDTO userPutDTO){
+
+        Users userPut = UsersMapper.INSTANCE.toUsers(userPutDTO);
+
+        Users databaseUser = findById(userPut.getId());
+
+        List<Users> emailNotFound = usersRepository.findByEmail(userPut.getEmail());
+
+        if (emailNotFound.size() == 1 && !databaseUser.getEmail().equals(userPut.getEmail())){
+            throw new BadRequestException("Email registered in the system");
+        }
+
+        List<Users> cpfNotFound = usersRepository.findByCpf(userPut.getCpf());
+
+        if (cpfNotFound.size() == 1 && !databaseUser.getCpf().equals(userPut.getCpf())){
+            throw new BadRequestException("Cpf registered in the system");
+        }
+
+        BeanUtils.copyProperties(userPut,databaseUser, "createdAt");
+
+        return usersRepository.save(databaseUser);
     }
 
 }
