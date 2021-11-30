@@ -35,13 +35,16 @@ public class UserController {
     @PostMapping
     public ResponseEntity<Users> save(@RequestBody @Valid UsersPostDTO usersPostDTO){
         Users user = userService.save(usersPostDTO);
-        log.info(user);
         return new ResponseEntity(user, HttpStatus.CREATED);
     }
 
     @PutMapping
     public ResponseEntity<Users> update(@RequestBody @Valid UserPutDTO userPutDTO){
-        //retorno o novo?
         return new ResponseEntity(userService.update(userPutDTO),HttpStatus.OK);
+    }
+
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<Users> delete(@PathVariable long id){
+        return new ResponseEntity(userService.delete(id),HttpStatus.OK);
     }
 }

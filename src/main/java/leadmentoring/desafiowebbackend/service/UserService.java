@@ -81,4 +81,12 @@ public class UserService {
         return usersRepository.save(databaseUser);
     }
 
+    public Users delete(long id){
+        Users user = findById(id);
+
+        usersRepository.delete(user);
+
+        return user;
+    }
+
 }
