@@ -20,7 +20,7 @@ public class LanguageService {
         return languageRepository.findAll();
     }
 
-    public Language findById(Long id){
+    public Language findById(Long id) {
         return languageRepository.findById(id)
                 .orElseThrow(() -> new BadRequestException("Language not found"));
     }

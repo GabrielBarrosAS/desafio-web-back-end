@@ -6,7 +6,9 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -27,7 +29,7 @@ public class Category {
     @ManyToOne
     @JoinColumn(name = "language_id")
     @JsonBackReference
-    @NotEmpty(message = "Category language cannot be empty")
+    @Valid
     private Language language;
 
     @NotEmpty(message = "The categoty tag cannot be empty")
@@ -41,4 +43,8 @@ public class Category {
 
     @UpdateTimestamp
     private LocalDateTime updateAt;
+
+    @Column(nullable=false, columnDefinition = "BOOLEAN DEFAULT TRUE")
+    @NotNull(message = "Active cannot be null")
+    private Boolean active;
 }

@@ -22,6 +22,7 @@ public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     @NotEmpty(message = "Username cannot be empty")
     private String name;
 
@@ -40,16 +41,17 @@ public class Users {
     @Size(min = 5,max = 10,message = "Password must be between 5 and 10 alphanumeric characters")
     private String password;
 
-    @NotNull(message = "Profile cannot be null")
+    @NotEmpty(message = "Profile cannot be empty")
     private String profile;
 
     @ManyToOne
     @JoinColumn(name = "language_id")
     @JsonBackReference
     @Valid
+    @NotNull(message = "Language cannot be null")
     private Language language;
 
-    @NotNull(message = "Roles cannot be null")
+    @NotEmpty(message = "Roles cannot be empty")
     private String roles;
 
     @CreationTimestamp
@@ -59,5 +61,6 @@ public class Users {
     private LocalDateTime updateAt;
 
     @Column(nullable=false, columnDefinition = "BOOLEAN DEFAULT TRUE")
-    private boolean active;
+    @NotNull(message = "Active cannot be null")
+    private Boolean active;
 }

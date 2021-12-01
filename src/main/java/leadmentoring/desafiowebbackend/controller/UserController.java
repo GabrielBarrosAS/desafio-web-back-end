@@ -1,8 +1,7 @@
 package leadmentoring.desafiowebbackend.controller;
 
-import leadmentoring.desafiowebbackend.domain.Language;
 import leadmentoring.desafiowebbackend.domain.Users;
-import leadmentoring.desafiowebbackend.dtos.UserPutDTO;
+import leadmentoring.desafiowebbackend.dtos.UsersPutDTO;
 import leadmentoring.desafiowebbackend.dtos.UsersPostDTO;
 import leadmentoring.desafiowebbackend.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +27,7 @@ public class UserController {
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<Language> findById(@PathVariable long id){
+    public ResponseEntity<Users> findById(@PathVariable long id){
         return new ResponseEntity(userService.findById(id), HttpStatus.OK);
     }
 
@@ -39,8 +38,8 @@ public class UserController {
     }
 
     @PutMapping
-    public ResponseEntity<Users> update(@RequestBody @Valid UserPutDTO userPutDTO){
-        return new ResponseEntity(userService.update(userPutDTO),HttpStatus.OK);
+    public ResponseEntity<Users> update(@RequestBody @Valid UsersPutDTO usersPutDTO){
+        return new ResponseEntity(userService.update(usersPutDTO),HttpStatus.OK);
     }
 
     @DeleteMapping(path = "/{id}")

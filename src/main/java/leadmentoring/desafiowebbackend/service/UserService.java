@@ -2,7 +2,7 @@ package leadmentoring.desafiowebbackend.service;
 
 import leadmentoring.desafiowebbackend.domain.Language;
 import leadmentoring.desafiowebbackend.domain.Users;
-import leadmentoring.desafiowebbackend.dtos.UserPutDTO;
+import leadmentoring.desafiowebbackend.dtos.UsersPutDTO;
 import leadmentoring.desafiowebbackend.dtos.UsersPostDTO;
 import leadmentoring.desafiowebbackend.exception.BadRequestException;
 import leadmentoring.desafiowebbackend.mappers.UsersMapper;
@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,9 +23,10 @@ import java.util.Optional;
 public class UserService {
 
     private final UsersRepository usersRepository;
-    private final LanguageRepository languageRepository;
+    private final LanguageService languageService;
 
     public List<Users> listAllNoPageable(){
+
         return usersRepository.findAll();
     }
 
@@ -37,11 +39,7 @@ public class UserService {
 
         Users newUser = UsersMapper.INSTANCE.toUsers(usersPostDTO);
 
-        Optional<Language> language = languageRepository.findById(newUser.getLanguage().getId());
-
-        if (language.isEmpty()) {
-            throw new BadRequestException("Language not found");
-        }
+        languageService.findById(newUser.getLanguage().getId());
 
         List<Users> emailNotFound = usersRepository.findByEmail(newUser.getEmail());
 
@@ -60,9 +58,9 @@ public class UserService {
         return usersRepository.save(newUser);
     }
 
-    public Users update(UserPutDTO userPutDTO){
+    public Users update(UsersPutDTO usersPutDTO){
 
-        Users userPut = UsersMapper.INSTANCE.toUsers(userPutDTO);
+        Users userPut = UsersMapper.INSTANCE.toUsers(usersPutDTO);
 
         Users databaseUser = findById(userPut.getId());
 
@@ -77,6 +75,8 @@ public class UserService {
         if (cpfNotFound.size() == 1 && !databaseUser.getCpf().equals(userPut.getCpf())){
             throw new BadRequestException("Cpf registered in the system");
         }
+
+        languageService.findById(userPut.getLanguage().getId());
 
         BeanUtils.copyProperties(userPut,databaseUser, "createdAt");
 

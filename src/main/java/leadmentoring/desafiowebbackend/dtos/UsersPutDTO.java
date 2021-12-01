@@ -4,6 +4,7 @@ import leadmentoring.desafiowebbackend.domain.Language;
 import lombok.*;
 import org.hibernate.validator.constraints.br.CPF;
 
+import javax.persistence.Column;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -12,10 +13,11 @@ import javax.validation.constraints.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserPutDTO {
+public class UsersPutDTO {
 
     @Min(value = 1, message = "Invalid id, value must be greater than or equal to 1")
     private long id;
+
     @NotEmpty(message = "Username cannot be empty")
     private String name;
 
@@ -34,13 +36,16 @@ public class UserPutDTO {
     @Size(min = 5,max = 10,message = "Password must be between 5 and 10 alphanumeric characters")
     private String password;
 
-    @NotNull(message = "Profile cannot be null")
+    @NotEmpty(message = "Profile cannot be empty")
     private String profile;
 
     @Valid
+    @NotNull(message = "Language cannot be null")
     private Language language;
 
-    @NotNull(message = "Roles cannot be null")
+    @NotEmpty(message = "Roles cannot be empty")
     private String roles;
 
+    @NotNull(message = "Active cannot be null")
+    private Boolean active;
 }

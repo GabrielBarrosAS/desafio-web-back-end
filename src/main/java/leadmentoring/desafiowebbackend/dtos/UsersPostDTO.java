@@ -32,13 +32,14 @@ public class UsersPostDTO {
     @Size(min = 5,max = 10,message = "Password must be between 5 and 10 alphanumeric characters")
     private String password;
 
-    @NotNull(message = "Profile cannot be null")
+    @NotEmpty(message = "Profile cannot be empty")
     private String profile;
 
     @Valid
+    @NotNull(message = "Language cannot be null")
     private Language language;
 
-    @NotNull(message = "Roles cannot be null")
+    @NotEmpty(message = "Roles cannot be empty")
     private String roles;
 
 }
