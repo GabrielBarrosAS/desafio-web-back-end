@@ -30,6 +30,7 @@ public class Category {
     @JoinColumn(name = "language_id")
     @JsonBackReference
     @Valid
+    @NotNull(message = "Category language cannot be null")
     private Language language;
 
     @NotEmpty(message = "The categoty tag cannot be empty")
