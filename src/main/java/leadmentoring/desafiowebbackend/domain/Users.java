@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.br.CPF;
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Getter
@@ -17,7 +18,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 @Builder
-public class Users {
+public class Users{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,15 +45,12 @@ public class Users {
     @NotEmpty(message = "Profile cannot be empty")
     private String profile;
 
-    @ManyToOne
-    @JoinColumn(name = "language_id")
-    @JsonBackReference
-    @Valid
-    @NotNull(message = "Language cannot be null")
-    private Language language;
-
     @NotEmpty(message = "Roles cannot be empty")
     private String roles;
+
+    @Column(nullable=false, columnDefinition = "BOOLEAN DEFAULT TRUE")
+    @NotNull(message = "Active cannot be null")
+    private Boolean active;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -60,7 +58,9 @@ public class Users {
     @UpdateTimestamp
     private LocalDateTime updateAt;
 
-    @Column(nullable=false, columnDefinition = "BOOLEAN DEFAULT TRUE")
-    @NotNull(message = "Active cannot be null")
-    private Boolean active;
+    @ManyToOne
+    @JoinColumn(name = "language_id")
+    @Valid
+    @NotNull(message = "Language cannot be null")
+    private Language language;
 }

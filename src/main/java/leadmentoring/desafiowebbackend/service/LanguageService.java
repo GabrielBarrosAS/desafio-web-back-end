@@ -1,7 +1,7 @@
 package leadmentoring.desafiowebbackend.service;
 
 import leadmentoring.desafiowebbackend.domain.Language;
-import leadmentoring.desafiowebbackend.dtos.LanguagePostDTO;
+import leadmentoring.desafiowebbackend.dtos.languageDTOS.LanguagePostDTO;
 import leadmentoring.desafiowebbackend.exception.BadRequestException;
 import leadmentoring.desafiowebbackend.mappers.LanguageMapper;
 import leadmentoring.desafiowebbackend.repository.LanguageRepository;

@@ -1,5 +1,7 @@
 package leadmentoring.desafiowebbackend.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -21,26 +23,28 @@ public class Language {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     @NotEmpty(message = "Language name cannot be empty")
     private String name;
+
     @NotEmpty(message = "The language tag cannot be empty")
     private String tag;
-
-    @OneToMany(mappedBy = "language")
-    @JsonManagedReference
-    private List<Users> usersList;
-
-    @OneToMany(mappedBy = "language")
-    @JsonManagedReference
-    private List<Category> categoryList;
-
-    @OneToMany(mappedBy = "language")
-    @JsonManagedReference
-    private List<Movies> moviesList;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
     private LocalDateTime updateAt;
+
+    @OneToMany(mappedBy = "language",cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Users> usersList;
+
+    @OneToMany(mappedBy = "language",cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Category> categoryList;
+
+    @OneToMany(mappedBy = "language",cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Movies> moviesList;
 }

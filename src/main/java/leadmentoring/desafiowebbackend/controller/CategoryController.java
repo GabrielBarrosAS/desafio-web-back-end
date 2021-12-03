@@ -1,8 +1,8 @@
 package leadmentoring.desafiowebbackend.controller;
 
 import leadmentoring.desafiowebbackend.domain.Category;
-import leadmentoring.desafiowebbackend.dtos.CategoryPostDTO;
-import leadmentoring.desafiowebbackend.dtos.CategoryPutDTO;
+import leadmentoring.desafiowebbackend.dtos.categoryDTOS.CategoryPostDTO;
+import leadmentoring.desafiowebbackend.dtos.categoryDTOS.CategoryPutDTO;
 import leadmentoring.desafiowebbackend.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

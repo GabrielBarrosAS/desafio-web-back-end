@@ -1,4 +1,4 @@
-package leadmentoring.desafiowebbackend.dtos;
+package leadmentoring.desafiowebbackend.dtos.languageDTOS;
 
 import lombok.*;
 

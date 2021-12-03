@@ -1,7 +1,7 @@
 package leadmentoring.desafiowebbackend.controller;
 
 import leadmentoring.desafiowebbackend.domain.Language;
-import leadmentoring.desafiowebbackend.dtos.LanguagePostDTO;
+import leadmentoring.desafiowebbackend.dtos.languageDTOS.LanguagePostDTO;
 import leadmentoring.desafiowebbackend.service.LanguageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

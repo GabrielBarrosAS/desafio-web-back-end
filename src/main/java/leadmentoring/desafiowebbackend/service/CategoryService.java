@@ -1,9 +1,9 @@
 package leadmentoring.desafiowebbackend.service;
 
 import leadmentoring.desafiowebbackend.domain.Category;
-import leadmentoring.desafiowebbackend.domain.Users;
-import leadmentoring.desafiowebbackend.dtos.CategoryPostDTO;
-import leadmentoring.desafiowebbackend.dtos.CategoryPutDTO;
+import leadmentoring.desafiowebbackend.domain.Language;
+import leadmentoring.desafiowebbackend.dtos.categoryDTOS.CategoryPostDTO;
+import leadmentoring.desafiowebbackend.dtos.categoryDTOS.CategoryPutDTO;
 import leadmentoring.desafiowebbackend.exception.BadRequestException;
 import leadmentoring.desafiowebbackend.mappers.CategoryMapper;
 import leadmentoring.desafiowebbackend.repository.CategoryRepository;
@@ -39,7 +39,9 @@ public class CategoryService {
 
         Category category = CategoryMapper.INSTANCE.toCategory(categoryPostDTO);
 
-        languageService.findById(category.getLanguage().getId());
+        Language language = languageService.findById(category.getLanguage().getId());
+
+        BeanUtils.copyProperties(language, category.getLanguage());
 
         category.setActive(true);
 
@@ -52,7 +54,9 @@ public class CategoryService {
 
         Category databaseCategory = findById(categoryPut.getId());
 
-        languageService.findById(categoryPut.getLanguage().getId());
+        Language language = languageService.findById(categoryPut.getLanguage().getId());
+
+        BeanUtils.copyProperties(language, categoryPut.getLanguage());
 
         BeanUtils.copyProperties(categoryPut,databaseCategory, "createdAt");
 

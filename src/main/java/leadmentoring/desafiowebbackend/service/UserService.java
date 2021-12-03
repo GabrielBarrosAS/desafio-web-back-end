@@ -2,11 +2,10 @@ package leadmentoring.desafiowebbackend.service;
 
 import leadmentoring.desafiowebbackend.domain.Language;
 import leadmentoring.desafiowebbackend.domain.Users;
-import leadmentoring.desafiowebbackend.dtos.UsersPutDTO;
-import leadmentoring.desafiowebbackend.dtos.UsersPostDTO;
+import leadmentoring.desafiowebbackend.dtos.usersDTOS.UsersPutDTO;
+import leadmentoring.desafiowebbackend.dtos.usersDTOS.UsersPostDTO;
 import leadmentoring.desafiowebbackend.exception.BadRequestException;
 import leadmentoring.desafiowebbackend.mappers.UsersMapper;
-import leadmentoring.desafiowebbackend.repository.LanguageRepository;
 import leadmentoring.desafiowebbackend.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -14,8 +13,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -39,7 +36,7 @@ public class UserService {
 
         Users newUser = UsersMapper.INSTANCE.toUsers(usersPostDTO);
 
-        languageService.findById(newUser.getLanguage().getId());
+        Language language = languageService.findById(newUser.getLanguage().getId());
 
         List<Users> emailNotFound = usersRepository.findByEmail(newUser.getEmail());
 
@@ -52,6 +49,8 @@ public class UserService {
         if (!cpfNotFound.isEmpty()){
             throw new BadRequestException("Cpf registered in the system");
         }
+
+        BeanUtils.copyProperties(language, newUser.getLanguage());
 
         newUser.setActive(true);
 
@@ -76,7 +75,9 @@ public class UserService {
             throw new BadRequestException("Cpf registered in the system");
         }
 
-        languageService.findById(userPut.getLanguage().getId());
+        Language language = languageService.findById(userPut.getLanguage().getId());
+
+        BeanUtils.copyProperties(language, userPut.getLanguage());
 
         BeanUtils.copyProperties(userPut,databaseUser, "createdAt");
 

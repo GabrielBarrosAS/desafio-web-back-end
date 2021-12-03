@@ -1,8 +1,8 @@
 package leadmentoring.desafiowebbackend.controller;
 
 import leadmentoring.desafiowebbackend.domain.Users;
-import leadmentoring.desafiowebbackend.dtos.UsersPutDTO;
-import leadmentoring.desafiowebbackend.dtos.UsersPostDTO;
+import leadmentoring.desafiowebbackend.dtos.usersDTOS.UsersPutDTO;
+import leadmentoring.desafiowebbackend.dtos.usersDTOS.UsersPostDTO;
 import leadmentoring.desafiowebbackend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

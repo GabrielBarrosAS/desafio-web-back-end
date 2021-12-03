@@ -1,7 +1,7 @@
 package leadmentoring.desafiowebbackend.mappers;
 
 import leadmentoring.desafiowebbackend.domain.Language;
-import leadmentoring.desafiowebbackend.dtos.LanguagePostDTO;
+import leadmentoring.desafiowebbackend.dtos.languageDTOS.LanguagePostDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

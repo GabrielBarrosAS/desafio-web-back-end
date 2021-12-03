@@ -1,8 +1,8 @@
 package leadmentoring.desafiowebbackend.mappers;
 
 import leadmentoring.desafiowebbackend.domain.Category;
-import leadmentoring.desafiowebbackend.dtos.CategoryPostDTO;
-import leadmentoring.desafiowebbackend.dtos.CategoryPutDTO;
+import leadmentoring.desafiowebbackend.dtos.categoryDTOS.CategoryPostDTO;
+import leadmentoring.desafiowebbackend.dtos.categoryDTOS.CategoryPutDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
