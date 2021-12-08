@@ -29,7 +29,7 @@ public class UsersPostDTO {
     private String email;
 
     @NotEmpty(message = "Password cannot be empty")
-    @Size(min = 5,max = 10,message = "Password must be between 5 and 10 alphanumeric characters")
+    @Size(min = 5,max = 512,message = "Password must be between 5 and 512 alphanumeric characters")
     private String password;
 
     @NotEmpty(message = "Profile cannot be empty")

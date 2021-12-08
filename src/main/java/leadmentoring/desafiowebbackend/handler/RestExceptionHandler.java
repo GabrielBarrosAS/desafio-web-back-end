@@ -1,8 +1,6 @@
 package leadmentoring.desafiowebbackend.handler;
 
-import leadmentoring.desafiowebbackend.exception.BadRequestException;
-import leadmentoring.desafiowebbackend.exception.BadRequestExceptionDetails;
-import leadmentoring.desafiowebbackend.exception.ValidationExceptionDetails;
+import leadmentoring.desafiowebbackend.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -26,6 +24,32 @@ public class RestExceptionHandler {
                         .details(badRequestException.getMessage())
                         .developerMessage(badRequestException.getClass().getName())
                         .build(),HttpStatus.BAD_REQUEST
+        );
+    }
+
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<ForbiddenExceptionDetails> handlerForbiddenException(ForbiddenException forbiddenException){
+        return new ResponseEntity<>(
+                ForbiddenExceptionDetails.builder()
+                        .timestamp(LocalDateTime.now())
+                        .status(HttpStatus.FORBIDDEN.value())
+                        .title("Not authorized")
+                        .details(forbiddenException.getMessage())
+                        .developerMessage(forbiddenException.getClass().getName())
+                        .build(),HttpStatus.FORBIDDEN
+        );
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<UnauthorizedExceptionDetails> handlerForbiddenException(UnauthorizedException unauthorizedException){
+        return new ResponseEntity<>(
+                UnauthorizedExceptionDetails.builder()
+                        .timestamp(LocalDateTime.now())
+                        .status(HttpStatus.UNAUTHORIZED.value())
+                        .title("Unauthenticated credentials")
+                        .details(unauthorizedException.getMessage())
+                        .developerMessage("Solicitação não foi aplicada porque não possui credenciais de autenticação válidas")
+                        .build(),HttpStatus.UNAUTHORIZED
         );
     }
 

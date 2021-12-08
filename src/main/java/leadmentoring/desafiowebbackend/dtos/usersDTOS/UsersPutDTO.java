@@ -15,7 +15,7 @@ import javax.validation.constraints.*;
 @NoArgsConstructor
 public class UsersPutDTO {
 
-    @Min(value = 1, message = "Invalid id, value must be greater than or equal to 1")
+    @Min(value = 0, message = "Invalid id, value must be greater than or equal to 0")
     private long id;
 
     @NotEmpty(message = "Username cannot be empty")
@@ -33,7 +33,7 @@ public class UsersPutDTO {
     private String email;
 
     @NotEmpty(message = "Password cannot be empty")
-    @Size(min = 5,max = 10,message = "Password must be between 5 and 10 alphanumeric characters")
+    @Size(min = 5,max = 512,message = "Password must be between 5 and 512 alphanumeric characters")
     private String password;
 
     @NotEmpty(message = "Profile cannot be empty")
