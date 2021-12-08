@@ -8,6 +8,7 @@ import leadmentoring.desafiowebbackend.service.MoviesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -31,17 +32,20 @@ public class MoviesController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Movies> save(@RequestBody @Valid MoviesPostDTO moviesPostDTO){
         Movies movies = moviesService.save(moviesPostDTO);
         return new ResponseEntity(movies, HttpStatus.CREATED);
     }
 
     @PutMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Movies> update(@RequestBody @Valid MoviesPutDTO moviesPutDTO){
         return new ResponseEntity(moviesService.update(moviesPutDTO),HttpStatus.OK);
     }
 
     @DeleteMapping(path = "/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Category> delete(@PathVariable long id){
         return new ResponseEntity(moviesService.delete(id),HttpStatus.OK);
     }
