@@ -2,7 +2,7 @@ package leadmentoring.desafiowebbackend.service;
 
 import leadmentoring.desafiowebbackend.domain.Language;
 import leadmentoring.desafiowebbackend.dtos.languageDTOS.LanguagePostDTO;
-import leadmentoring.desafiowebbackend.exception.BadRequestException;
+import leadmentoring.desafiowebbackend.exception.notFound.NotFoundException;
 import leadmentoring.desafiowebbackend.mappers.LanguageMapper;
 import leadmentoring.desafiowebbackend.repository.LanguageRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ public class LanguageService {
 
     public Language findById(Long id) {
         return languageRepository.findById(id)
-                .orElseThrow(() -> new BadRequestException("Language not found"));
+                .orElseThrow(() -> new NotFoundException("Language not found"));
     }
 
     public Language save(LanguagePostDTO languagePostDTO){

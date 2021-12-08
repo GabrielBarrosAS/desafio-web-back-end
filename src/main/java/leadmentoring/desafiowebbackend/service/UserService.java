@@ -4,29 +4,22 @@ import leadmentoring.desafiowebbackend.domain.Language;
 import leadmentoring.desafiowebbackend.domain.Users;
 import leadmentoring.desafiowebbackend.dtos.usersDTOS.UsersPutDTO;
 import leadmentoring.desafiowebbackend.dtos.usersDTOS.UsersPostDTO;
-import leadmentoring.desafiowebbackend.exception.BadRequestException;
-import leadmentoring.desafiowebbackend.exception.ForbiddenException;
+import leadmentoring.desafiowebbackend.exception.badRequest.BadRequestException;
+import leadmentoring.desafiowebbackend.exception.notFound.NotFoundException;
+import leadmentoring.desafiowebbackend.exception.forbidden.ForbiddenException;
 import leadmentoring.desafiowebbackend.mappers.UsersMapper;
 import leadmentoring.desafiowebbackend.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.BeanUtils;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -44,7 +37,7 @@ public class UserService implements UserDetailsService {
 
     public Users findById(Long id){
         return usersRepository.findById(id)
-                .orElseThrow(() -> new BadRequestException("User not found"));
+                .orElseThrow(() -> new NotFoundException("User not found"));
     }
 
     public Users save(UsersPostDTO usersPostDTO){

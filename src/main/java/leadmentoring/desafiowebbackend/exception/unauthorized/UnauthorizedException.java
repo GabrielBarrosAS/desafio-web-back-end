@@ -1,4 +1,4 @@
-package leadmentoring.desafiowebbackend.exception;
+package leadmentoring.desafiowebbackend.exception.unauthorized;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

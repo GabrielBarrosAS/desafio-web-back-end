@@ -1,6 +1,14 @@
 package leadmentoring.desafiowebbackend.handler;
 
 import leadmentoring.desafiowebbackend.exception.*;
+import leadmentoring.desafiowebbackend.exception.badRequest.BadRequestException;
+import leadmentoring.desafiowebbackend.exception.badRequest.BadRequestExceptionDetails;
+import leadmentoring.desafiowebbackend.exception.notFound.NotFoundException;
+import leadmentoring.desafiowebbackend.exception.notFound.NotFoundExceptionDetails;
+import leadmentoring.desafiowebbackend.exception.forbidden.ForbiddenException;
+import leadmentoring.desafiowebbackend.exception.forbidden.ForbiddenExceptionDetails;
+import leadmentoring.desafiowebbackend.exception.unauthorized.UnauthorizedException;
+import leadmentoring.desafiowebbackend.exception.unauthorized.UnauthorizedExceptionDetails;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -14,16 +22,27 @@ import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class RestExceptionHandler {
-    @ExceptionHandler(BadRequestException.class)
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<NotFoundExceptionDetails> handlerNotFoundException(NotFoundException notFoundException){
+        return new ResponseEntity<>(
+                NotFoundExceptionDetails.builder()
+                        .timestamp(LocalDateTime.now())
+                        .statusCode(HttpStatus.NOT_FOUND.value())
+                        .message(notFoundException.getMessage())
+                        .error("Not Found")
+                        .build(),HttpStatus.NOT_FOUND
+        );
+    }
+
+    @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<BadRequestExceptionDetails> handlerBadRequestException(BadRequestException badRequestException){
         return new ResponseEntity<>(
                 BadRequestExceptionDetails.builder()
                         .timestamp(LocalDateTime.now())
-                        .status(HttpStatus.BAD_REQUEST.value())
-                        .title("Bad Request Exception, Check the documentation")
-                        .details(badRequestException.getMessage())
-                        .developerMessage(badRequestException.getClass().getName())
-                        .build(),HttpStatus.BAD_REQUEST
+                        .statusCode(HttpStatus.NOT_FOUND.value())
+                        .message(badRequestException.getMessage())
+                        .error("Not Found")
+                        .build(),HttpStatus.NOT_FOUND
         );
     }
 
@@ -32,23 +51,21 @@ public class RestExceptionHandler {
         return new ResponseEntity<>(
                 ForbiddenExceptionDetails.builder()
                         .timestamp(LocalDateTime.now())
-                        .status(HttpStatus.FORBIDDEN.value())
-                        .title("Not authorized")
-                        .details(forbiddenException.getMessage())
-                        .developerMessage(forbiddenException.getClass().getName())
+                        .statusCode(HttpStatus.FORBIDDEN.value())
+                        .message(forbiddenException.getMessage())
+                        .error("O acesso à página ou recurso que você estava tentando acessar é proibido.")
                         .build(),HttpStatus.FORBIDDEN
         );
     }
 
     @ExceptionHandler(UnauthorizedException.class)
-    public ResponseEntity<UnauthorizedExceptionDetails> handlerForbiddenException(UnauthorizedException unauthorizedException){
+    public ResponseEntity<UnauthorizedExceptionDetails> handlerUnauthorizedException(UnauthorizedException unauthorizedException){
         return new ResponseEntity<>(
                 UnauthorizedExceptionDetails.builder()
                         .timestamp(LocalDateTime.now())
-                        .status(HttpStatus.UNAUTHORIZED.value())
-                        .title("Unauthenticated credentials")
-                        .details(unauthorizedException.getMessage())
-                        .developerMessage("Solicitação não foi aplicada porque não possui credenciais de autenticação válidas")
+                        .statusCode(HttpStatus.UNAUTHORIZED.value())
+                        .message(unauthorizedException.getMessage())
+                        .error("Solicitação não foi aplicada porque não possui credenciais de autenticação válidas")
                         .build(),HttpStatus.UNAUTHORIZED
         );
     }
@@ -64,10 +81,9 @@ public class RestExceptionHandler {
         return new ResponseEntity<>(
                 ValidationExceptionDetails.builder()
                         .timestamp(LocalDateTime.now())
-                        .status(HttpStatus.BAD_REQUEST.value())
-                        .title("Bad Request Exception, Invalid fields")
-                        .details("Simplificando methodArgumentNotValidException.getMessage()")
-                        .developerMessage(methodArgumentNotValidException.getClass().getName())
+                        .statusCode(HttpStatus.BAD_REQUEST.value())
+                        .message("Simplificando methodArgumentNotValidException.getMessage()")
+                        .error("Method Argument Not Valid")
                         .fields(fields)
                         .fieldsMessage(messages)
                         .build(),HttpStatus.BAD_REQUEST

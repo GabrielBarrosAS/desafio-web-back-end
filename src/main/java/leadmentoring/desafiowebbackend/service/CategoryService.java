@@ -4,7 +4,7 @@ import leadmentoring.desafiowebbackend.domain.Category;
 import leadmentoring.desafiowebbackend.domain.Language;
 import leadmentoring.desafiowebbackend.dtos.categoryDTOS.CategoryPostDTO;
 import leadmentoring.desafiowebbackend.dtos.categoryDTOS.CategoryPutDTO;
-import leadmentoring.desafiowebbackend.exception.BadRequestException;
+import leadmentoring.desafiowebbackend.exception.notFound.NotFoundException;
 import leadmentoring.desafiowebbackend.mappers.CategoryMapper;
 import leadmentoring.desafiowebbackend.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +32,7 @@ public class CategoryService {
 
     public Category findById(Long id){
         return categoryRepository.findById(id)
-                .orElseThrow(() -> new BadRequestException("Category not found"));
+                .orElseThrow(() -> new NotFoundException("Category not found"));
     }
 
     public Category save(CategoryPostDTO categoryPostDTO){

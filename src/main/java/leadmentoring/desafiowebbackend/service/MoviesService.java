@@ -5,7 +5,8 @@ import leadmentoring.desafiowebbackend.domain.Language;
 import leadmentoring.desafiowebbackend.domain.Movies;
 import leadmentoring.desafiowebbackend.dtos.moviesDTOS.MoviesPostDTO;
 import leadmentoring.desafiowebbackend.dtos.moviesDTOS.MoviesPutDTO;
-import leadmentoring.desafiowebbackend.exception.BadRequestException;
+import leadmentoring.desafiowebbackend.exception.badRequest.BadRequestException;
+import leadmentoring.desafiowebbackend.exception.notFound.NotFoundException;
 import leadmentoring.desafiowebbackend.mappers.MoviesMapper;
 import leadmentoring.desafiowebbackend.repository.MoviesRepository;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +36,7 @@ public class MoviesService {
 
     public Movies findById(Long id){
         return moviesRepository.findById(id)
-                .orElseThrow(() -> new BadRequestException("Movies not found"));
+                .orElseThrow(() -> new NotFoundException("Movies not found"));
     }
 
     public Movies save(MoviesPostDTO moviesPostDTO){
