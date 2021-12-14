@@ -8,6 +8,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class CategoryCreator {
+    public static Language LANGUAGE_CATEGORY;
+
     public static Category createCategoryToBeSaved(){
         return Category.builder()
                 .id(1)
@@ -16,7 +18,7 @@ public class CategoryCreator {
                 .active(true)
                 .createdAt(LocalDateTime.now())
                 .updateAt(LocalDateTime.now())
-                .language(LanguageCreator.createLanguageSaved())
+                .language(LANGUAGE_CATEGORY)
                 .moviesList(new ArrayList<Movies>())
                 .build();
     }
@@ -29,7 +31,7 @@ public class CategoryCreator {
                 .active(true)
                 .createdAt(LocalDateTime.now())
                 .updateAt(LocalDateTime.now())
-                .language(LanguageCreator.createLanguageSaved())
+                .language(LANGUAGE_CATEGORY)
                 .moviesList(new ArrayList<Movies>())
                 .build();
     }

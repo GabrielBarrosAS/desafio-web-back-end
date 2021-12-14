@@ -1,16 +1,12 @@
 package leadmentoring.desafiowebbackend.repository;
 
-import leadmentoring.desafiowebbackend.domain.Language;
 import leadmentoring.desafiowebbackend.domain.Users;
-import leadmentoring.desafiowebbackend.util.CategoryCreator;
 import leadmentoring.desafiowebbackend.util.LanguageCreator;
 import leadmentoring.desafiowebbackend.util.UsersCreator;
-import lombok.extern.log4j.Log4j2;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.annotation.DirtiesContext;
 
 import javax.validation.ConstraintViolationException;
 import java.util.List;
@@ -19,7 +15,6 @@ import java.util.Optional;
 @DataJpaTest
 @DisplayName("Tests for the users repository")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@Log4j2
 class UsersRepositoryTest {
 
     @Autowired
@@ -29,7 +24,18 @@ class UsersRepositoryTest {
 
     @BeforeAll
     void setUp(){
-        this.languageRepository.save(LanguageCreator.createLanguageSaved());
+        UsersCreator.LANGUAGE_USERS = languageRepository.save(LanguageCreator.createLanguageToBeSaved());
+    }
+
+    @BeforeEach
+    void show(){
+        List<Users> all = usersRepository.findAll();
+    }
+
+    @AfterAll
+    void toClear(){
+        languageRepository.deleteById(UsersCreator.LANGUAGE_USERS.getId());
+        UsersCreator.LANGUAGE_USERS = null;
     }
 
     @Test
@@ -37,7 +43,7 @@ class UsersRepositoryTest {
     void save_PersistUsers_WhenSuccessful(){
 
         Users userToBeSaved = UsersCreator.createUsersToBeSaved();
-        Users savedUsers = this.usersRepository.save(userToBeSaved);
+        Users savedUsers = usersRepository.save(userToBeSaved);
 
         Assertions.assertThat(savedUsers).isNotNull();
         Assertions.assertThat(savedUsers.getId()).isNotNull();
@@ -50,47 +56,47 @@ class UsersRepositoryTest {
 
         Users userToBeSavedNameNull = UsersCreator.createUsersToBeSaved();
         userToBeSavedNameNull.setName(null);
-        Assertions.assertThatThrownBy(() -> this.usersRepository.save(userToBeSavedNameNull))
+        Assertions.assertThatThrownBy(() -> usersRepository.save(userToBeSavedNameNull))
                 .isInstanceOf(ConstraintViolationException.class);
 
         Users userToBeSavedLanguageNull = UsersCreator.createUsersToBeSaved();
         userToBeSavedLanguageNull.setLanguage(null);
-        Assertions.assertThatThrownBy(() -> this.usersRepository.save(userToBeSavedLanguageNull))
+        Assertions.assertThatThrownBy(() -> usersRepository.save(userToBeSavedLanguageNull))
                 .isInstanceOf(ConstraintViolationException.class);
 
         Users userToBeSavedActiveNull = UsersCreator.createUsersToBeSaved();
         userToBeSavedActiveNull.setActive(null);
-        Assertions.assertThatThrownBy(() -> this.usersRepository.save(userToBeSavedActiveNull))
+        Assertions.assertThatThrownBy(() -> usersRepository.save(userToBeSavedActiveNull))
                 .isInstanceOf(ConstraintViolationException.class);
 
         Users userToBeSavedTelephoneNull = UsersCreator.createUsersToBeSaved();
         userToBeSavedTelephoneNull.setTelephone(null);
-        Assertions.assertThatThrownBy(() -> this.usersRepository.save(userToBeSavedTelephoneNull))
+        Assertions.assertThatThrownBy(() -> usersRepository.save(userToBeSavedTelephoneNull))
                 .isInstanceOf(ConstraintViolationException.class);
 
         Users userToBeSavedEmailNull = UsersCreator.createUsersToBeSaved();
         userToBeSavedEmailNull.setEmail(null);
-        Assertions.assertThatThrownBy(() -> this.usersRepository.save(userToBeSavedEmailNull))
+        Assertions.assertThatThrownBy(() -> usersRepository.save(userToBeSavedEmailNull))
                 .isInstanceOf(ConstraintViolationException.class);
 
         Users userToBeSavedProfileNull = UsersCreator.createUsersToBeSaved();
         userToBeSavedProfileNull.setProfile(null);
-        Assertions.assertThatThrownBy(() -> this.usersRepository.save(userToBeSavedProfileNull))
+        Assertions.assertThatThrownBy(() -> usersRepository.save(userToBeSavedProfileNull))
                 .isInstanceOf(ConstraintViolationException.class);
 
         Users userToBeSavedRolesNull = UsersCreator.createUsersToBeSaved();
         userToBeSavedRolesNull.setRoles(null);
-        Assertions.assertThatThrownBy(() -> this.usersRepository.save(userToBeSavedRolesNull))
+        Assertions.assertThatThrownBy(() -> usersRepository.save(userToBeSavedRolesNull))
                 .isInstanceOf(ConstraintViolationException.class);
 
         Users userToBeSavedPasswordNull = UsersCreator.createUsersToBeSaved();
         userToBeSavedPasswordNull.setPassword(null);
-        Assertions.assertThatThrownBy(() -> this.usersRepository.save(userToBeSavedPasswordNull))
+        Assertions.assertThatThrownBy(() -> usersRepository.save(userToBeSavedPasswordNull))
                 .isInstanceOf(ConstraintViolationException.class);
 
         Users userToBeSavedCPFNull = UsersCreator.createUsersToBeSaved();
         userToBeSavedCPFNull.setCpf(null);
-        Assertions.assertThatThrownBy(() -> this.usersRepository.save(userToBeSavedCPFNull))
+        Assertions.assertThatThrownBy(() -> usersRepository.save(userToBeSavedCPFNull))
                 .isInstanceOf(ConstraintViolationException.class);
     }
 
@@ -98,9 +104,9 @@ class UsersRepositoryTest {
     @DisplayName("Return a user with id corresponding to the fetched")
     void findById_ReturnUsers_WhenCorrespondingId(){
 
-        Users savedUsers = this.usersRepository.save(UsersCreator.createUsersToBeSaved());
+        Users savedUsers = usersRepository.save(UsersCreator.createUsersToBeSaved());
 
-        Optional<Users> findByIdUsers = this.usersRepository.findById(savedUsers.getId());
+        Optional<Users> findByIdUsers = usersRepository.findById(savedUsers.getId());
 
         Assertions.assertThat(findByIdUsers)
                 .isNotEmpty()
@@ -111,7 +117,7 @@ class UsersRepositoryTest {
     @Test
     @DisplayName("Returns an empty Optional when ID does not match")
     void findById_ReturnEmptyOptional_WhenDoesNotCorrespondingId(){
-        Optional<Users> findByIdUsers = this.usersRepository.findById(0L);
+        Optional<Users> findByIdUsers = usersRepository.findById(0L);
 
         Assertions.assertThat(findByIdUsers )
                 .isEmpty()
@@ -121,16 +127,13 @@ class UsersRepositoryTest {
     @Test
     @DisplayName("Returns a list of all as users stored in the database")
     void findAll_ReturnListUsers_WhenThereAreUsers(){
-
-        List<Language> language = languageRepository.findAll();
-
         Users categoryToBeSavedOne = UsersCreator.createUsersToBeSaved();
         Users categoryToBeSavedTwo = UsersCreator.createUsersToBeSaved();
 
-        Users savedUsersOne = this.usersRepository.save(categoryToBeSavedOne);
-        Users savedUsersTwo = this.usersRepository.save(categoryToBeSavedTwo);
+        Users savedUsersOne = usersRepository.save(categoryToBeSavedOne);
+        Users savedUsersTwo = usersRepository.save(categoryToBeSavedTwo);
 
-        List<Users> listUsers = this.usersRepository.findAll();
+        List<Users> listUsers = usersRepository.findAll();
 
         Assertions.assertThat(listUsers )
                 .isNotNull()
@@ -143,7 +146,7 @@ class UsersRepositoryTest {
     @Test
     @DisplayName("Returns an empty list when there are no users stored")
     void findAll_ReturnEmptyListUsers_WhenThereAreNoUsers(){
-        List<Users > listUsers = this.usersRepository.findAll();
+        List<Users > listUsers = usersRepository.findAll();
 
         Assertions.assertThat(listUsers )
                 .isNotNull()

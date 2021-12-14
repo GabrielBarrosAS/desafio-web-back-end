@@ -1,14 +1,12 @@
 package leadmentoring.desafiowebbackend.repository;
 
 import leadmentoring.desafiowebbackend.domain.Category;
-import leadmentoring.desafiowebbackend.domain.Language;
 import leadmentoring.desafiowebbackend.util.CategoryCreator;
 import leadmentoring.desafiowebbackend.util.LanguageCreator;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import javax.validation.ConstraintViolationException;
 import java.util.List;
@@ -26,20 +24,27 @@ class CategoryRepositoryTest {
 
     @BeforeAll
     void setUp(){
-        languageRepository.save(LanguageCreator.createLanguageSaved());
-        categoryRepository.save(CategoryCreator.createCategoryToBeSaved());
+        CategoryCreator.LANGUAGE_CATEGORY = languageRepository.save(LanguageCreator.createLanguageToBeSaved());
     }
 
+    @BeforeEach
+    void show(){
+        List<Category> all = categoryRepository.findAll();
+    }
 
+    @AfterAll
+    void toClear(){
+        languageRepository.deleteById(CategoryCreator.LANGUAGE_CATEGORY.getId());
+        CategoryCreator.LANGUAGE_CATEGORY = null;
+    }
 
     @Test
     @DisplayName("Persists the new category when it occurs successfully")
     void save_PersistCategory_WhenSuccessful(){
-        Category savedCategory = this.categoryRepository.findById(1L).get();
+        Category savedCategory = categoryRepository.save(CategoryCreator.createCategoryToBeSaved());
 
         Assertions.assertThat(savedCategory).isNotNull();
         Assertions.assertThat(savedCategory.getId()).isNotNull();
-        Assertions.assertThat(savedCategory).isNotEqualTo(CategoryCreator.createCategorySaved());
     }
 
     @Test
@@ -47,31 +52,31 @@ class CategoryRepositoryTest {
     void save_ThrowsConstraintViolationException_WhenPassingAnInvalidField(){
         Category categoryToBeSavedNameNull = CategoryCreator.createCategoryToBeSaved();
         categoryToBeSavedNameNull.setName(null);
-        Assertions.assertThatThrownBy(() -> this.categoryRepository.save(categoryToBeSavedNameNull))
+        Assertions.assertThatThrownBy(() -> categoryRepository.save(categoryToBeSavedNameNull))
                 .isInstanceOf(ConstraintViolationException.class);
 
         Category categoryToBeSavedLanguageNull = CategoryCreator.createCategoryToBeSaved();
         categoryToBeSavedLanguageNull.setLanguage(null);
-        Assertions.assertThatThrownBy(() -> this.categoryRepository.save(categoryToBeSavedLanguageNull))
+        Assertions.assertThatThrownBy(() -> categoryRepository.save(categoryToBeSavedLanguageNull))
                 .isInstanceOf(ConstraintViolationException.class);
 
         Category categoryToBeSavedTagNull = CategoryCreator.createCategoryToBeSaved();
         categoryToBeSavedTagNull.setTag(null);
-        Assertions.assertThatThrownBy(() -> this.categoryRepository.save(categoryToBeSavedTagNull))
+        Assertions.assertThatThrownBy(() -> categoryRepository.save(categoryToBeSavedTagNull))
                 .isInstanceOf(ConstraintViolationException.class);
 
         Category categoryToBeSavedActiveNull = CategoryCreator.createCategoryToBeSaved();
         categoryToBeSavedActiveNull.setActive(null);
-        Assertions.assertThatThrownBy(() -> this.categoryRepository.save(categoryToBeSavedActiveNull))
+        Assertions.assertThatThrownBy(() -> categoryRepository.save(categoryToBeSavedActiveNull))
                 .isInstanceOf(ConstraintViolationException.class);
     }
 
     @Test
     @DisplayName("Return a category with id corresponding to the fetched")
     void findById_ReturnCategory_WhenCorrespondingId(){
-        Category savedCategory = this.categoryRepository.findById(1L).get();
+        Category savedCategory = categoryRepository.save(CategoryCreator.createCategoryToBeSaved());
 
-        Optional<Category> findByIdCategory = this.categoryRepository.findById(savedCategory.getId());
+        Optional<Category> findByIdCategory = categoryRepository.findById(savedCategory.getId());
 
         Assertions.assertThat(findByIdCategory)
                 .isNotEmpty()
@@ -82,7 +87,7 @@ class CategoryRepositoryTest {
     @Test
     @DisplayName("Returns an empty Optional when ID does not match")
     void findById_ReturnEmptyOptional_WhenDoesNotCorrespondingId(){
-        Optional<Category> findByIdCategory = this.categoryRepository.findById(0L);
+        Optional<Category> findByIdCategory = categoryRepository.findById(0L);
 
         Assertions.assertThat(findByIdCategory )
                 .isEmpty()
@@ -92,22 +97,26 @@ class CategoryRepositoryTest {
     @Test
     @DisplayName("Returns a list of all as category s stored in the database")
     void findAll_ReturnListCategorys_WhenThereAreCategorys(){
+        Category categoryToBeSavedOne = CategoryCreator.createCategoryToBeSaved();
+        Category categoryToBeSavedTwo = CategoryCreator.createCategoryToBeSaved();
 
-        Category savedCategoryOne = this.categoryRepository.findById(1L).get();
+        Category savedCategoryOne = categoryRepository.save(categoryToBeSavedOne);
+        Category savedCategoryTwo = categoryRepository.save(categoryToBeSavedTwo);
 
-        List<Category> listCategory = this.categoryRepository.findAll();
+        List<Category> listCategory = categoryRepository.findAll();
 
         Assertions.assertThat(listCategory )
                 .isNotNull()
                 .isNotEmpty()
                 .contains(savedCategoryOne)
-                .hasSize(1);
+                .contains(savedCategoryTwo)
+                .hasSize(2);
     }
 
     @Test
     @DisplayName("Returns an empty list when there are no category s stored")
     void findAll_ReturnEmptyListCategorys_WhenThereAreNoCategorys(){
-        List<Category> listCategory = this.categoryRepository.findAll();
+        List<Category> listCategory = categoryRepository.findAll();
 
         Assertions.assertThat(listCategory )
                 .isNotNull()

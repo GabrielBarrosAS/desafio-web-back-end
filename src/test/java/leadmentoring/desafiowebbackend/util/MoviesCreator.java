@@ -1,11 +1,17 @@
 package leadmentoring.desafiowebbackend.util;
 
+import leadmentoring.desafiowebbackend.domain.Category;
+import leadmentoring.desafiowebbackend.domain.Language;
 import leadmentoring.desafiowebbackend.domain.Movies;
 import leadmentoring.desafiowebbackend.domain.Users;
 
 import java.time.LocalDateTime;
 
 public class MoviesCreator {
+
+    public static Language LANGUAGE_MOVIES;
+    public static Category CATEGORY_MOVIES;
+
     public static Movies createMoviesToBeSaved(){
         return Movies.builder()
                 .tittle("the synopsis")
@@ -13,8 +19,8 @@ public class MoviesCreator {
                 .launchData("16/06/2000")
                 .image("url image movie")
                 .duration(120)
-                .language(LanguageCreator.createLanguageSaved())
-                .category(CategoryCreator.createCategorySaved())
+                .language(LANGUAGE_MOVIES)
+                .category(CATEGORY_MOVIES)
                 .active(true)
                 .createdAt(LocalDateTime.now())
                 .updateAt(LocalDateTime.now())
@@ -29,8 +35,8 @@ public class MoviesCreator {
                 .launchData("16/06/2000")
                 .image("url image movie")
                 .duration(120)
-                .language(LanguageCreator.createLanguageSaved())
-                .category(CategoryCreator.createCategorySaved())
+                .language(LANGUAGE_MOVIES)
+                .category(CATEGORY_MOVIES)
                 .active(true)
                 .createdAt(LocalDateTime.now())
                 .updateAt(LocalDateTime.now())

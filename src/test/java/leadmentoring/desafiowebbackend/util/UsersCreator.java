@@ -1,10 +1,13 @@
 package leadmentoring.desafiowebbackend.util;
 
+import leadmentoring.desafiowebbackend.domain.Language;
 import leadmentoring.desafiowebbackend.domain.Users;
 
 import java.time.LocalDateTime;
 
 public class UsersCreator {
+    public static Language LANGUAGE_USERS;
+
     public static Users createUsersToBeSaved(){
         return Users.builder()
                 .name("User name")
@@ -17,7 +20,7 @@ public class UsersCreator {
                 .active(true)
                 .createdAt(LocalDateTime.now())
                 .updateAt(LocalDateTime.now())
-                .language(LanguageCreator.createLanguageSaved())
+                .language(LANGUAGE_USERS)
                 .build();
     }
 
@@ -34,7 +37,7 @@ public class UsersCreator {
                 .active(true)
                 .createdAt(LocalDateTime.now())
                 .updateAt(LocalDateTime.now())
-                .language(LanguageCreator.createLanguageSaved())
+                .language(LANGUAGE_USERS)
                 .build();
     }
 
