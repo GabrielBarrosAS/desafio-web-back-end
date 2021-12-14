@@ -32,6 +32,7 @@ public class Users implements UserDetails {
     private String name;
 
     @CPF(message = "Please, provide a valid cpf")
+    @NotEmpty(message = "CPF cannot be empty")
     private String cpf;
 
     @NotEmpty(message = "Telephone cannot be empty")

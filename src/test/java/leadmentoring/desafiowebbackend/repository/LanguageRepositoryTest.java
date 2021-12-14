@@ -26,13 +26,13 @@ class LanguageRepositoryTest {
         Language languageToBeSavedNameNull = LanguageCreator.createLanguageToBeSaved();
         languageToBeSavedNameNull.setName(null);
 
-        Assertions.assertThatThrownBy(() -> languageRepository.save(languageToBeSavedNameNull))
+        Assertions.assertThatThrownBy(() -> this.languageRepository.save(languageToBeSavedNameNull))
                 .isInstanceOf(ConstraintViolationException.class);
 
         Language languageToBeSavedTagNull = LanguageCreator.createLanguageToBeSaved();
         languageToBeSavedTagNull.setTag(null);
 
-        Assertions.assertThatThrownBy(() -> languageRepository.save(languageToBeSavedTagNull))
+        Assertions.assertThatThrownBy(() -> this.languageRepository.save(languageToBeSavedTagNull))
                 .isInstanceOf(ConstraintViolationException.class);
     }
 
@@ -41,7 +41,7 @@ class LanguageRepositoryTest {
     void save_PersistLanguage_WhenSuccessful(){
         Language languageToBeSaved = LanguageCreator.createLanguageToBeSaved();
 
-        Language savedLanguage = languageRepository.save(languageToBeSaved);
+        Language savedLanguage = this.languageRepository.save(languageToBeSaved);
 
         Assertions.assertThat(savedLanguage).isNotNull();
         Assertions.assertThat(savedLanguage.getId()).isNotNull();
@@ -51,9 +51,9 @@ class LanguageRepositoryTest {
     @Test
     @DisplayName("Return a language with id corresponding to the fetched")
     void findById_ReturnLanguage_WhenCorrespondingId(){
-        Language savedLanguage = languageRepository.save(LanguageCreator.createLanguageToBeSaved());
+        Language savedLanguage = this.languageRepository.save(LanguageCreator.createLanguageToBeSaved());
 
-        Optional<Language> findByIdLanguage = languageRepository.findById(savedLanguage.getId());
+        Optional<Language> findByIdLanguage = this.languageRepository.findById(savedLanguage.getId());
 
         Assertions.assertThat(findByIdLanguage)
                 .isNotEmpty()
@@ -64,7 +64,7 @@ class LanguageRepositoryTest {
     @Test
     @DisplayName("Returns an empty Optional when ID does not match")
     void findById_ReturnEmptyOptional_WhenDoesNotCorrespondingId(){
-        Optional<Language> findByIdLanguage = languageRepository.findById(0L);
+        Optional<Language> findByIdLanguage = this.languageRepository.findById(0L);
 
         Assertions.assertThat(findByIdLanguage)
                 .isEmpty()
@@ -74,10 +74,11 @@ class LanguageRepositoryTest {
     @Test
     @DisplayName("Returns a list of all as languages stored in the database")
     void findAll_ReturnListLanguages_WhenThereAreLanguages(){
-        Language savedLanguageOne = languageRepository.save(LanguageCreator.createLanguageToBeSaved());
-        Language savedLanguageTwo = languageRepository.save(LanguageCreator.createLanguageToBeSaved());
+        languageRepository.deleteAll();
+        Language savedLanguageOne = this.languageRepository.save(LanguageCreator.createLanguageToBeSaved());
+        Language savedLanguageTwo = this.languageRepository.save(LanguageCreator.createLanguageToBeSaved());
 
-        List<Language> listLanguage = languageRepository.findAll();
+        List<Language> listLanguage = this.languageRepository.findAll();
 
         Assertions.assertThat(listLanguage)
                 .isNotNull()
@@ -90,7 +91,8 @@ class LanguageRepositoryTest {
     @Test
     @DisplayName("Returns an empty list when there are no languages stored")
     void findAll_ReturnEmptyListLanguages_WhenThereAreNoLanguages(){
-        List<Language> listLanguage = languageRepository.findAll();
+        languageRepository.deleteAll();
+        List<Language> listLanguage = this.languageRepository.findAll();
 
         Assertions.assertThat(listLanguage)
                 .isNotNull()

@@ -34,7 +34,7 @@ public class RestExceptionHandler {
         );
     }
 
-    @ExceptionHandler(NotFoundException.class)
+    @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<BadRequestExceptionDetails> handlerBadRequestException(BadRequestException badRequestException){
         return new ResponseEntity<>(
                 BadRequestExceptionDetails.builder()

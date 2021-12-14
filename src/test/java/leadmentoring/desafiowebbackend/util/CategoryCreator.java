@@ -8,27 +8,28 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class CategoryCreator {
-    public static Category createCategoryToBeSaved(Language language){
+    public static Category createCategoryToBeSaved(){
         return Category.builder()
+                .id(1)
                 .name("Category name")
                 .tag("Category tag")
                 .active(true)
                 .createdAt(LocalDateTime.now())
                 .updateAt(LocalDateTime.now())
-                .language(language)
+                .language(LanguageCreator.createLanguageSaved())
                 .moviesList(new ArrayList<Movies>())
                 .build();
     }
 
-    public static Category createCategorySaved(Language language){
+    public static Category createCategorySaved(){
         return Category.builder()
-                .id(language.getId())//ideia de pegar o mesmo id correspondente da linguagem
+                .id(1)
                 .name("Category name")
                 .tag("Category tag")
                 .active(true)
                 .createdAt(LocalDateTime.now())
                 .updateAt(LocalDateTime.now())
-                .language(language)
+                .language(LanguageCreator.createLanguageSaved())
                 .moviesList(new ArrayList<Movies>())
                 .build();
     }
