@@ -1,4 +1,4 @@
-package leadmentoring.desafiowebbackend.util;
+package leadmentoring.desafiowebbackend.util.MoviesCreator;
 
 import leadmentoring.desafiowebbackend.domain.Category;
 import leadmentoring.desafiowebbackend.domain.Language;

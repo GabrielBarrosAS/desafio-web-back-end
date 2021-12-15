@@ -1,4 +1,4 @@
-package leadmentoring.desafiowebbackend.util;
+package leadmentoring.desafiowebbackend.util.CategoryCreator;
 
 import leadmentoring.desafiowebbackend.domain.Category;
 import leadmentoring.desafiowebbackend.domain.Language;
@@ -12,7 +12,6 @@ public class CategoryCreator {
 
     public static Category createCategoryToBeSaved(){
         return Category.builder()
-                .id(1)
                 .name("Category name")
                 .tag("Category tag")
                 .active(true)

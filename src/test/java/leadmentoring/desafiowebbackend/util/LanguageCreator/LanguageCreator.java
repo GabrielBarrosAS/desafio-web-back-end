@@ -1,4 +1,4 @@
-package leadmentoring.desafiowebbackend.util;
+package leadmentoring.desafiowebbackend.util.LanguageCreator;
 
 import leadmentoring.desafiowebbackend.domain.Category;
 import leadmentoring.desafiowebbackend.domain.Language;
@@ -14,8 +14,6 @@ public class LanguageCreator {
         return Language.builder()
                 .name("language")
                 .tag("language tag")
-                .createdAt(LocalDateTime.now())
-                .updateAt(LocalDateTime.now())
                 .moviesList(new ArrayList<Movies>())
                 .categoryList(new ArrayList<Category>())
                 .usersList(new ArrayList<Users>())
@@ -27,8 +25,6 @@ public class LanguageCreator {
                 .id(1)
                 .name("language")
                 .tag("language tag")
-                .createdAt(LocalDateTime.now())
-                .updateAt(LocalDateTime.now())
                 .moviesList(new ArrayList<Movies>())
                 .categoryList(new ArrayList<Category>())
                 .usersList(new ArrayList<Users>())

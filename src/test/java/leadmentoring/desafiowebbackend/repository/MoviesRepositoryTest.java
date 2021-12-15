@@ -1,9 +1,9 @@
 package leadmentoring.desafiowebbackend.repository;
 
 import leadmentoring.desafiowebbackend.domain.Movies;
-import leadmentoring.desafiowebbackend.util.CategoryCreator;
-import leadmentoring.desafiowebbackend.util.LanguageCreator;
-import leadmentoring.desafiowebbackend.util.MoviesCreator;
+import leadmentoring.desafiowebbackend.util.CategoryCreator.CategoryCreator;
+import leadmentoring.desafiowebbackend.util.LanguageCreator.LanguageCreator;
+import leadmentoring.desafiowebbackend.util.MoviesCreator.MoviesCreator;
 import lombok.extern.log4j.Log4j2;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;

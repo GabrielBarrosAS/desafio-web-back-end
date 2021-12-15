@@ -1,8 +1,8 @@
 package leadmentoring.desafiowebbackend.repository;
 
 import leadmentoring.desafiowebbackend.domain.Users;
-import leadmentoring.desafiowebbackend.util.LanguageCreator;
-import leadmentoring.desafiowebbackend.util.UsersCreator;
+import leadmentoring.desafiowebbackend.util.LanguageCreator.LanguageCreator;
+import leadmentoring.desafiowebbackend.util.UsersCreator.UsersCreator;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -112,6 +112,58 @@ class UsersRepositoryTest {
                 .isNotEmpty()
                 .isNotNull();
         Assertions.assertThat(findByIdUsers.get()).usingRecursiveComparison().isEqualTo(savedUsers);
+    }
+
+    @Test
+    @DisplayName("Return a list of users with email corresponding to the fetched")
+    void findByName_ReturnListOfUsers_WhenCorrespondingEmail(){
+
+        Users savedUsers = usersRepository.save(UsersCreator.createUsersToBeSaved());
+
+        List<Users> findByNameUsers = usersRepository.findByEmail(savedUsers.getEmail());
+
+        Assertions.assertThat(findByNameUsers)
+                .isNotEmpty()
+                .isNotNull()
+                .contains(savedUsers)
+                .hasSize(1);
+        Assertions.assertThat(findByNameUsers.get(0)).usingRecursiveComparison().isEqualTo(savedUsers);
+    }
+
+    @Test
+    @DisplayName("Return a empty list of users with email no corresponding to the fetched")
+    void findByName_ReturnEmptyListOfUsers_WhenNoCorrespondingEmail(){
+        List<Users> findByNameUsers = usersRepository.findByEmail("emailnotfound");
+
+        Assertions.assertThat(findByNameUsers)
+                .isNotNull()
+                .isEmpty();
+    }
+
+    @Test
+    @DisplayName("Return a list of users with cpf corresponding to the fetched")
+    void findByCpf_ReturnListOfUsers_WhenCorrespondingCpf(){
+
+        Users savedUsers = usersRepository.save(UsersCreator.createUsersToBeSaved());
+
+        List<Users> findByCpfUsers = usersRepository.findByCpf(savedUsers.getCpf());
+
+        Assertions.assertThat(findByCpfUsers)
+                .isNotEmpty()
+                .isNotNull()
+                .contains(savedUsers)
+                .hasSize(1);
+        Assertions.assertThat(findByCpfUsers.get(0)).usingRecursiveComparison().isEqualTo(savedUsers);
+    }
+
+    @Test
+    @DisplayName("Return a empty list of users with cpf no corresponding to the fetched")
+    void findByCpf_ReturnEmptyListOfUsers_WhenNoCorrespondingCpf(){
+        List<Users> findByCpfUsers = usersRepository.findByCpf("cpfnotfound");
+
+        Assertions.assertThat(findByCpfUsers)
+                .isNotNull()
+                .isEmpty();
     }
 
     @Test

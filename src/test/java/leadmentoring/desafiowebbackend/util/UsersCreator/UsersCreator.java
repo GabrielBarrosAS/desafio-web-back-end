@@ -1,4 +1,4 @@
-package leadmentoring.desafiowebbackend.util;
+package leadmentoring.desafiowebbackend.util.UsersCreator;
 
 import leadmentoring.desafiowebbackend.domain.Language;
 import leadmentoring.desafiowebbackend.domain.Users;

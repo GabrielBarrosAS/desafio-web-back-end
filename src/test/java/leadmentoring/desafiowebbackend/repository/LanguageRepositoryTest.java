@@ -1,7 +1,7 @@
 package leadmentoring.desafiowebbackend.repository;
 
 import leadmentoring.desafiowebbackend.domain.Language;
-import leadmentoring.desafiowebbackend.util.LanguageCreator;
+import leadmentoring.desafiowebbackend.util.LanguageCreator.LanguageCreator;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
