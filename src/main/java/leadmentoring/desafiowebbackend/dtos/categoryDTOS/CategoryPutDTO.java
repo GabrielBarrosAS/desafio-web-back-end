@@ -24,9 +24,8 @@ public class CategoryPutDTO {
     @NotEmpty(message = "The categoty tag cannot be empty")
     private String tag;
 
-    @Valid
-    @NotNull(message = "Category language cannot be null")
-    private Language language;
+    @Min(value = 1, message = "Invalid language id, value must be greater than or equal to 1")
+    private long languageID;
 
     @NotNull(message = "Active cannot be null")
     private Boolean active;

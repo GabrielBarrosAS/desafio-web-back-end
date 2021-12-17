@@ -44,7 +44,7 @@ public class UserService implements UserDetailsService {
 
         Users newUser = UsersMapper.INSTANCE.toUsers(usersPostDTO);
 
-        Language language = languageService.findById(newUser.getLanguage().getId());
+        Language language = languageService.findById(usersPostDTO.getLanguageID());
 
         List<Users> emailNotFound = usersRepository.findByEmail(newUser.getEmail());
 
@@ -58,7 +58,7 @@ public class UserService implements UserDetailsService {
             throw new BadRequestException("Cpf registered in the system");
         }
 
-        BeanUtils.copyProperties(language, newUser.getLanguage());
+        newUser.setLanguage(language);
 
         newUser.setPassword(encoder.encode(newUser.getPassword()));
 
@@ -71,35 +71,33 @@ public class UserService implements UserDetailsService {
 
         Users userPut = UsersMapper.INSTANCE.toUsers(usersPutDTO);
 
-        Users databaseUser = findById(userPut.getId());
+        userPut.setCreatedAt(findById(userPut.getId()).getCreatedAt());
 
         Boolean isAdmin = userDetails.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
-        log.info(isAdmin);
-        if (!isAdmin && !userDetails.getUsername().equals(databaseUser.getEmail())) {
+
+        if (!isAdmin && !userDetails.getUsername().equals(findById(userPut.getId()).getEmail())) {
             throw new ForbiddenException("Acesso negado! Não é possível alterar os dados de outro cliente");
         }
 
         List<Users> emailNotFound = usersRepository.findByEmail(userPut.getEmail());
 
-        if (emailNotFound.size() == 1 && !databaseUser.getEmail().equals(userPut.getEmail())){
+        if (emailNotFound.size() == 1 && !userPut.getEmail().equals(findById(userPut.getId()).getEmail())){
             throw new BadRequestException("Email registered in the system");
         }
 
         List<Users> cpfNotFound = usersRepository.findByCpf(userPut.getCpf());
 
-        if (cpfNotFound.size() == 1 && !databaseUser.getCpf().equals(userPut.getCpf())){
+        if (cpfNotFound.size() == 1 && !userPut.getCpf().equals(findById(userPut.getId()).getCpf())){
             throw new BadRequestException("Cpf registered in the system");
         }
 
         userPut.setPassword(encoder.encode(userPut.getPassword()));
 
-        Language language = languageService.findById(userPut.getLanguage().getId());
+        Language language = languageService.findById(usersPutDTO.getLanguageID());
 
-        BeanUtils.copyProperties(language, userPut.getLanguage());
+        userPut.setLanguage(language);
 
-        BeanUtils.copyProperties(userPut,databaseUser, "createdAt");
-
-        return usersRepository.save(databaseUser);
+        return usersRepository.save(userPut);
     }
 
     public Users delete(long id){

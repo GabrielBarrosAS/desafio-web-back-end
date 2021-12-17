@@ -8,10 +8,10 @@ import leadmentoring.desafiowebbackend.exception.notFound.NotFoundException;
 import leadmentoring.desafiowebbackend.mappers.CategoryMapper;
 import leadmentoring.desafiowebbackend.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,9 +39,9 @@ public class CategoryService {
 
         Category category = CategoryMapper.INSTANCE.toCategory(categoryPostDTO);
 
-        Language language = languageService.findById(category.getLanguage().getId());
+        Language language = languageService.findById(categoryPostDTO.getLanguageID());
 
-        BeanUtils.copyProperties(language, category.getLanguage());
+        category.setLanguage(language);
 
         category.setActive(true);
 
@@ -52,15 +52,13 @@ public class CategoryService {
 
         Category categoryPut = CategoryMapper.INSTANCE.toCategory(categoryPutDTO);
 
-        Category databaseCategory = findById(categoryPut.getId());
+        categoryPut.setCreatedAt(findById(categoryPut.getId()).getCreatedAt());
 
-        Language language = languageService.findById(categoryPut.getLanguage().getId());
+        Language language = languageService.findById(categoryPutDTO.getLanguageID());
 
-        BeanUtils.copyProperties(language, categoryPut.getLanguage());
+        categoryPut.setLanguage(language);
 
-        BeanUtils.copyProperties(categoryPut,databaseCategory, "createdAt");
-
-        return categoryRepository.save(databaseCategory);
+        return categoryRepository.save(categoryPut);
     }
 
     public Category delete(long id){

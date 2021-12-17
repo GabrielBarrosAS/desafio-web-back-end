@@ -35,9 +35,8 @@ public class UsersPostDTO {
     @NotEmpty(message = "Profile cannot be empty")
     private String profile;
 
-    @Valid
-    @NotNull(message = "Language cannot be null")
-    private Language language;
+    @Min(value = 1, message = "Invalid language id, value must be greater than or equal to 1")
+    private long languageID;
 
     @NotEmpty(message = "Roles cannot be empty")
     private String roles;

@@ -22,8 +22,10 @@ public class LanguageController {
     private final LanguageService languageService;
 
     @GetMapping
-    public List<Language> listAllNoPageable(){
-        return languageService.listAllNoPageable();
+    public ResponseEntity<List<Language>> listAllNoPageable(){
+
+        return new ResponseEntity<>(languageService.listAllNoPageable(),HttpStatus.OK);
+
     }
 
     @GetMapping(path = "/{id}")

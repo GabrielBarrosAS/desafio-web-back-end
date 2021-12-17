@@ -15,8 +15,6 @@ public class CategoryCreator {
                 .name("Category name")
                 .tag("Category tag")
                 .active(true)
-                .createdAt(LocalDateTime.now())
-                .updateAt(LocalDateTime.now())
                 .language(LANGUAGE_CATEGORY)
                 .moviesList(new ArrayList<Movies>())
                 .build();
@@ -28,11 +26,30 @@ public class CategoryCreator {
                 .name("Category name")
                 .tag("Category tag")
                 .active(true)
-                .createdAt(LocalDateTime.now())
-                .updateAt(LocalDateTime.now())
                 .language(LANGUAGE_CATEGORY)
                 .moviesList(new ArrayList<Movies>())
                 .build();
     }
 
+    public static Category createCategoryUpdated(){
+        return Category.builder()
+                .id(1)
+                .name("Category name update")
+                .tag("Category tag update")
+                .active(true)
+                .language(LANGUAGE_CATEGORY)
+                .moviesList(new ArrayList<Movies>())
+                .build();
+    }
+
+    public static Category createCategoryDeleted(){
+        return Category.builder()
+                .id(1)
+                .name("Category name")
+                .tag("Category tag")
+                .active(false)
+                .language(LANGUAGE_CATEGORY)
+                .moviesList(new ArrayList<Movies>())
+                .build();
+    }
 }

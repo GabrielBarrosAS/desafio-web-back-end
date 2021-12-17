@@ -18,8 +18,6 @@ public class UsersCreator {
                 .cpf("80380083086")
                 .email("email@email.com")
                 .active(true)
-                .createdAt(LocalDateTime.now())
-                .updateAt(LocalDateTime.now())
                 .language(LANGUAGE_USERS)
                 .build();
     }
@@ -35,8 +33,51 @@ public class UsersCreator {
                 .cpf("80380083086")
                 .email("email@email.com")
                 .active(true)
-                .createdAt(LocalDateTime.now())
-                .updateAt(LocalDateTime.now())
+                .language(LANGUAGE_USERS)
+                .build();
+    }
+
+    public static Users createUsersSavedAdmin(){
+        return Users.builder()
+                .id(1)
+                .name("User name")
+                .telephone("999999999")
+                .roles("ROLE_USER,ROLE_ADMIN")
+                .profile("URL PROFILE")
+                .password("password")
+                .cpf("80380083086")
+                .email("email@email.com")
+                .active(true)
+                .language(LANGUAGE_USERS)
+                .build();
+    }
+
+    public static Users createUsersUpdated(){
+        return Users.builder()
+                .id(1L)
+                .name("User name update")
+                .telephone("update")
+                .roles("ROLE_USER")
+                .profile("update")
+                .password("password")
+                .cpf("80380083086")
+                .email("email@email.com update")
+                .active(true)
+                .language(LANGUAGE_USERS)
+                .build();
+    }
+
+    public static Users createUsersDeleted(){
+        return Users.builder()
+                .id(1)
+                .name("User name")
+                .telephone("999999999")
+                .roles("ROLE_USER")
+                .profile("URL PROFILE")
+                .password("password")
+                .cpf("80380083086")
+                .email("email@email.com")
+                .active(false)
                 .language(LANGUAGE_USERS)
                 .build();
     }

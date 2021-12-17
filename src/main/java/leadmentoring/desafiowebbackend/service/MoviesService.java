@@ -43,21 +43,13 @@ public class MoviesService {
 
         Movies movie = MoviesMapper.INSTANCE.toMovies(moviesPostDTO);
 
-        Language languageMovie = languageService.findById(movie.getLanguage().getId());
+        Language languageMovie = languageService.findById(moviesPostDTO.getLanguageID());
 
-        Category category = categoryService.findById(movie.getCategory().getId());
+        Category category = categoryService.findById(moviesPostDTO.getCategoryID());
 
-        Language languageCategory = languageService.findById(movie.getCategory().getLanguage().getId());
+        movie.setLanguage(languageMovie);
 
-        if (!(category.getLanguage().getId() == languageCategory.getId())){
-            throw new BadRequestException("The category language does not match the expected language");
-        }
-
-        BeanUtils.copyProperties(languageMovie, movie.getLanguage());
-
-        BeanUtils.copyProperties(category, movie.getCategory());
-
-        BeanUtils.copyProperties(languageCategory, movie.getCategory().getLanguage());
+        movie.setCategory(category);
 
         movie.setActive(true);
 
@@ -68,27 +60,17 @@ public class MoviesService {
 
         Movies moviePut = MoviesMapper.INSTANCE.toMovies(moviesPutDTO);
 
-        Movies databaseMovies = findById(moviePut.getId());
+        moviePut.setCreatedAt(findById(moviePut.getId()).getCreatedAt());
 
-        Language languageMovie = languageService.findById(moviePut.getLanguage().getId());
+        Language languageMovie = languageService.findById(moviesPutDTO.getLanguageID());
 
-        Category category = categoryService.findById(moviePut.getCategory().getId());
+        Category category = categoryService.findById(moviesPutDTO.getCategoryID());
 
-        Language languageCategory = languageService.findById(moviePut.getCategory().getLanguage().getId());
+        moviePut.setLanguage(languageMovie);
 
-        if (!(category.getLanguage().getId() == languageCategory.getId())){
-            throw new BadRequestException("The category language does not match the expected language");
-        }
+        moviePut.setCategory(category);
 
-        BeanUtils.copyProperties(languageMovie, moviePut.getLanguage());
-
-        BeanUtils.copyProperties(category, moviePut.getCategory());
-
-        BeanUtils.copyProperties(languageCategory, moviePut.getCategory().getLanguage());
-
-        BeanUtils.copyProperties(moviePut,databaseMovies, "createdAt");
-
-        return moviesRepository.save(databaseMovies);
+        return moviesRepository.save(moviePut);
     }
 
     public Movies delete(long id){
