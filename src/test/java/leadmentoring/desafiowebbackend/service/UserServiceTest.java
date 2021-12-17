@@ -254,6 +254,9 @@ class UserServiceTest {
         BDDMockito.when(languageServiceMock.findById(ArgumentMatchers.anyLong()))
                 .thenThrow(new NotFoundException("")).thenReturn(null);
 
+        BDDMockito.when(usersRepositoryMock.findById(ArgumentMatchers.anyLong()))
+                .thenReturn(Optional.of(UsersCreator.createUsersUpdated()));
+
         Assertions.assertThatThrownBy(
                 () -> userService.update(
                         UsersPutDtoCreator.createUsersPutDtoToBeUpdate(),
