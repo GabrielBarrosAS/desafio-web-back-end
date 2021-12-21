@@ -1,5 +1,7 @@
 package leadmentoring.desafiowebbackend.domain;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import leadmentoring.desafiowebbackend.deserializer.CustomAuthorityDeserializer;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -69,6 +71,7 @@ public class Users implements UserDetails {
     @NotNull(message = "Language cannot be null")
     private Language language;
 
+    @JsonDeserialize(using = CustomAuthorityDeserializer.class)
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Arrays.stream(roles.split(","))

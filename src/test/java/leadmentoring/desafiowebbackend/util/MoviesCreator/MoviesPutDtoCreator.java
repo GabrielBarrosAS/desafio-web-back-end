@@ -12,10 +12,12 @@ public class MoviesPutDtoCreator {
 
     public static MoviesPutDTO createMoviesPutDtoToBeUpdate(){
         return MoviesPutDTO.builder()
+                .id(1)
                 .tittle("the synopsis update")
                 .synopsis("the synopsis update")
                 .launchData("16/06/2000 update")
                 .image("url image movie update")
+                .active(true)
                 .duration(240)
                 .languageID(LANGUAGE_PUT_MOVIES.getId())
                 .categoryID(CATEGORY_PUT_MOVIES.getId())

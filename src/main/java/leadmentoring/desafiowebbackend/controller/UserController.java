@@ -46,13 +46,14 @@ public class UserController {
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Users> update(@RequestBody @Valid UsersPutDTO usersPutDTO,
                                         @AuthenticationPrincipal UserDetails userDetails){
-
+        log.info("p\n\n\n\n\n\n");
         return new ResponseEntity(userService.update(usersPutDTO,userDetails),HttpStatus.OK);
     }
 
     @DeleteMapping(path = "/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Users> delete(@PathVariable long id){
+        log.info("d\n\n\n\n\n\n");
         return new ResponseEntity(userService.delete(id),HttpStatus.OK);
     }
 }

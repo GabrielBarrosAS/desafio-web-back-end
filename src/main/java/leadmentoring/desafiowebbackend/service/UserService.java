@@ -68,7 +68,6 @@ public class UserService implements UserDetailsService {
     }
 
     public Users update(UsersPutDTO usersPutDTO, UserDetails userDetails){
-
         Users userPut = UsersMapper.INSTANCE.toUsers(usersPutDTO);
 
         userPut.setCreatedAt(findById(userPut.getId()).getCreatedAt());

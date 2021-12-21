@@ -61,7 +61,7 @@ public class UsersCreator {
                 .profile("update")
                 .password("password")
                 .cpf("80380083086")
-                .email("email@email.com update")
+                .email("email@email.comupdate")
                 .active(true)
                 .language(LANGUAGE_USERS)
                 .build();

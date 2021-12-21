@@ -52,5 +52,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers(HttpMethod.POST,"/users");
+        web.ignoring().antMatchers(HttpMethod.GET,"/language/**");
+        web.ignoring().antMatchers(HttpMethod.GET,"/category/**");
+        web.ignoring().antMatchers(HttpMethod.GET,"/movies/**");
     }
 }
