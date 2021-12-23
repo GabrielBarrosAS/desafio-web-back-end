@@ -1,5 +1,8 @@
 package leadmentoring.desafiowebbackend.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import leadmentoring.desafiowebbackend.domain.Category;
 import leadmentoring.desafiowebbackend.domain.Movies;
 import leadmentoring.desafiowebbackend.dtos.moviesDTOS.MoviesPostDTO;
@@ -17,22 +20,44 @@ import java.util.List;
 @RestController
 @RequestMapping("movies")
 @RequiredArgsConstructor
+@ApiResponses(value = {
+        @ApiResponse(responseCode = "401", description = "Invalid credentials"),
+        @ApiResponse(responseCode = "403", description = "User does not have access (Not admin)"),
+        @ApiResponse(responseCode = "400", description = "When a parameter is not in valid format"),
+})
 public class MoviesController {
 
     private final MoviesService moviesService;
 
     @GetMapping
-    public List<Movies> listAllNoPageable(){
-        return moviesService.listAllNoPageable();
+    @Operation(summary = "Lists all movies that are active in the database")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Sucessful Operation")
+    })
+    public ResponseEntity<List<Movies>> listAllNoPageable(){
+
+        return new ResponseEntity<>(moviesService.listAllNoPageable(),HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}")
+    @Operation(summary = "Search a movies by unique id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "There is element with the specified id"),
+            @ApiResponse(responseCode = "404", description = "Element not found")
+    })
     public ResponseEntity<Movies> findById(@PathVariable long id){
         return new ResponseEntity(moviesService.findById(id), HttpStatus.OK);
     }
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Create a new movies when parameters are passed correctly")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Element is created correctly"),
+            @ApiResponse(responseCode = "404",
+                    description = "The language ou category is not registered in the database"),
+
+    })
     public ResponseEntity<Movies> save(@RequestBody @Valid MoviesPostDTO moviesPostDTO){
         Movies movies = moviesService.save(moviesPostDTO);
         return new ResponseEntity(movies, HttpStatus.CREATED);
@@ -40,12 +65,23 @@ public class MoviesController {
 
     @PutMapping
     @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Update a movies that already exists in the database")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Element is updeted correctly"),
+            @ApiResponse(responseCode = "404",
+                    description = "The language or category is not registered in the database"),
+    })
     public ResponseEntity<Movies> update(@RequestBody @Valid MoviesPutDTO moviesPutDTO){
         return new ResponseEntity(moviesService.update(moviesPutDTO),HttpStatus.OK);
     }
 
     @DeleteMapping(path = "/{id}")
     @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Delete a moviesx that already exists in the database")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Element is deleted correctly"),
+            @ApiResponse(responseCode = "404", description = "Element not found")
+    })
     public ResponseEntity<Category> delete(@PathVariable long id){
         return new ResponseEntity(moviesService.delete(id),HttpStatus.OK);
     }
