@@ -43,14 +43,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         log.info("Password encoded {}",encoder.encode("12345678"));
 
-        auth.inMemoryAuthentication()
-                .withUser("admin")
-                .password(encoder.encode("password"))
-                .roles("USER","ADMIN")
-                .and()
-                .withUser("user")
-                .password(encoder.encode("password"))
-                .roles("USER");
+//        auth.inMemoryAuthentication()
+//                .withUser("admin")
+//                .password(encoder.encode("password"))
+//                .roles("USER","ADMIN")
+//                .and()
+//                .withUser("user")
+//                .password(encoder.encode("password"))
+//                .roles("USER");
         auth.userDetailsService(userService).passwordEncoder(encoder);
     }
 

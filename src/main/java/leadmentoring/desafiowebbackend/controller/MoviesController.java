@@ -3,6 +3,7 @@ package leadmentoring.desafiowebbackend.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import leadmentoring.desafiowebbackend.domain.Category;
 import leadmentoring.desafiowebbackend.domain.Movies;
 import leadmentoring.desafiowebbackend.dtos.moviesDTOS.MoviesPostDTO;
@@ -25,6 +26,7 @@ import java.util.List;
         @ApiResponse(responseCode = "403", description = "User does not have access (Not admin)"),
         @ApiResponse(responseCode = "400", description = "When a parameter is not in valid format"),
 })
+@SecurityRequirement(name = "Movie System")
 public class MoviesController {
 
     private final MoviesService moviesService;

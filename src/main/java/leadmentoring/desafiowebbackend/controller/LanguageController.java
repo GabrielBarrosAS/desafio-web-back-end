@@ -3,6 +3,7 @@ package leadmentoring.desafiowebbackend.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import leadmentoring.desafiowebbackend.domain.Language;
 import leadmentoring.desafiowebbackend.dtos.languageDTOS.LanguagePostDTO;
 import leadmentoring.desafiowebbackend.service.LanguageService;
@@ -20,11 +21,7 @@ import java.util.List;
 @RequestMapping("language")
 @RequiredArgsConstructor
 @Log4j2
-@ApiResponses(value = {
-        @ApiResponse(responseCode = "400",description = "When a parameter is not in valid format"),
-        @ApiResponse(responseCode = "401",description = "Invalid credentials"),
-        @ApiResponse(responseCode = "403",description = "User does not have access (Not admin)")
-})
+@SecurityRequirement(name = "Movie System")
 public class LanguageController {
 
     private final LanguageService languageService;
@@ -54,6 +51,9 @@ public class LanguageController {
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Create a new languages when parameters are passed correctly")
     @ApiResponses(value = {
+            @ApiResponse(responseCode = "400",description = "When a parameter is not in valid format"),
+            @ApiResponse(responseCode = "401",description = "Invalid credentials"),
+            @ApiResponse(responseCode = "403",description = "User does not have access (Not admin)"),
             @ApiResponse(responseCode = "201", description = "Element is created correctly"),
     })
     public ResponseEntity<Language> save(@RequestBody @Valid LanguagePostDTO languagePostDTO){

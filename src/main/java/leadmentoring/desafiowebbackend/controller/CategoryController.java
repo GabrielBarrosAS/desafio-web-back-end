@@ -3,6 +3,7 @@ package leadmentoring.desafiowebbackend.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import leadmentoring.desafiowebbackend.domain.Category;
 import leadmentoring.desafiowebbackend.domain.Language;
 import leadmentoring.desafiowebbackend.dtos.categoryDTOS.CategoryPostDTO;
@@ -25,6 +26,7 @@ import java.util.List;
         @ApiResponse(responseCode = "401",description = "Invalid credentials"),
         @ApiResponse(responseCode = "403",description = "User does not have access (Not admin)")
 })
+@SecurityRequirement(name = "Movie System")
 public class CategoryController {
 
     private final CategoryService categoryService;

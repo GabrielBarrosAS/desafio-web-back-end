@@ -3,6 +3,7 @@ package leadmentoring.desafiowebbackend.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import leadmentoring.desafiowebbackend.domain.Users;
 import leadmentoring.desafiowebbackend.dtos.usersDTOS.UsersPostDTO;
 import leadmentoring.desafiowebbackend.dtos.usersDTOS.UsersPutDTO;
@@ -24,6 +25,7 @@ import java.util.List;
 @RequestMapping("users")
 @RequiredArgsConstructor
 @Log4j2
+@SecurityRequirement(name = "Movie System")
 public class UserController {
 
     private final UserService userService;
