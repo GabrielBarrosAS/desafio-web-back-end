@@ -24,20 +24,19 @@ services:
     restart: always
     volumes:
       - pgadmin:/root/.pgadmin
-
-  back_end:
-    container_name: desafio_back_end
-    build:
-      context: .
-    ports:
-      - "8080:8080"
-    depends_on:
-      - postgresql_desafio_back_end
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/movies
-      - SPRING_DATASOURCE_USERNAME=admin
-      - SPRING_DATASOURCE_PASSWORD=admin1234
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+  #back_end:
+  #  container_name: desafio_back_end
+  #  build:
+  #    context: .
+  #  ports:
+  #    - "8080:8080"
+  #  depends_on:
+  #    - postgresql_desafio_back_end
+  #  environment:
+  #    - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/movies
+  #    - SPRING_DATASOURCE_USERNAME=admin
+  #    - SPRING_DATASOURCE_PASSWORD=admin1234
+  #    - SPRING_JPA_HIBERNATE_DDL_AUTO=update
 volumes:
   database-data:
   pgadmin:
