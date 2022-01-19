@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 
@@ -33,7 +32,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/v3/api-docs/**",
                         "/swagger-ui/**",
                         "/swagger-ui.html",
-                        "/webjars/swagger-ui/**").permitAll()
+                        "/webjars/swagger-ui/**",
+                        "/users/oauth").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -44,24 +44,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        //PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
-        log.info("Password encoded {}",encoder.encode("12345678"));
-
-//        auth.inMemoryAuthentication()
-//                .withUser("admin")
-//                .password(encoder.encode("password"))
-//                .roles("USER","ADMIN")
-//                .and()
-//                .withUser("user")
-//                .password(encoder.encode("password"))
-//                .roles("USER");
         auth.userDetailsService(userService).passwordEncoder(encoder);
+
     }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers(HttpMethod.POST,"/users");
+        web.ignoring().antMatchers(HttpMethod.POST,"/users/oauth");
         web.ignoring().antMatchers(HttpMethod.GET,"/language/**");
         web.ignoring().antMatchers(HttpMethod.GET,"/category/**");
         web.ignoring().antMatchers(HttpMethod.GET,"/movies/**");

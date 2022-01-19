@@ -2,22 +2,24 @@ package leadmentoring.desafiowebbackend.service;
 
 import leadmentoring.desafiowebbackend.domain.Language;
 import leadmentoring.desafiowebbackend.domain.Users;
-import leadmentoring.desafiowebbackend.dtos.usersDTOS.UsersPutDTO;
+import leadmentoring.desafiowebbackend.dtos.usersDTOS.UserAuthDTO;
 import leadmentoring.desafiowebbackend.dtos.usersDTOS.UsersPostDTO;
+import leadmentoring.desafiowebbackend.dtos.usersDTOS.UsersPutDTO;
 import leadmentoring.desafiowebbackend.exception.badRequest.BadRequestException;
-import leadmentoring.desafiowebbackend.exception.notFound.NotFoundException;
 import leadmentoring.desafiowebbackend.exception.forbidden.ForbiddenException;
+import leadmentoring.desafiowebbackend.exception.notFound.NotFoundException;
+import leadmentoring.desafiowebbackend.exception.unauthorized.UnauthorizedException;
 import leadmentoring.desafiowebbackend.mappers.UsersMapper;
 import leadmentoring.desafiowebbackend.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +31,24 @@ public class UserService implements UserDetailsService {
     private final UsersRepository usersRepository;
     private final LanguageService languageService;
     private final PasswordEncoder encoder;
+
+    public String auth(UserAuthDTO userAuthDTO){
+        List<Users> userExist = usersRepository.findByEmail(userAuthDTO.getEmail());
+
+        if(userExist.size() == 0) throw new NotFoundException("Email not registered in the system");
+
+        Users users = userExist.get(0);
+
+        if(!encoder.matches(userAuthDTO.getPassword(),users.getPassword()))
+            throw new UnauthorizedException("Invalid password");
+
+        String token = Base64.getEncoder()
+                        .encodeToString((users.getEmail() + ":" + userAuthDTO.getPassword())
+                        .getBytes());
+
+        log.info("{\"id\": \"" + users.getId() + "\",\"token\": \"" + token + "\"}");
+        return "{\"id\": \"" + users.getId() + "\",\"token\": \"" + token + "\"}";
+    }
 
     public List<Users> listAllNoPageable(){
 

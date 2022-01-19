@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import leadmentoring.desafiowebbackend.domain.Users;
+import leadmentoring.desafiowebbackend.dtos.usersDTOS.UserAuthDTO;
 import leadmentoring.desafiowebbackend.dtos.usersDTOS.UsersPostDTO;
 import leadmentoring.desafiowebbackend.dtos.usersDTOS.UsersPutDTO;
 import leadmentoring.desafiowebbackend.service.UserService;
@@ -30,6 +31,12 @@ public class UserController {
 
     private final UserService userService;
 
+    @PostMapping(path = "/oauth")
+    public ResponseEntity<String> authUser(@RequestBody @Valid UserAuthDTO usersAuthDTO){
+
+        return new ResponseEntity<String>(userService.auth(usersAuthDTO),HttpStatus.OK);
+    }
+
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Lists all users that are active in the database")
@@ -42,7 +49,7 @@ public class UserController {
     }
 
     @GetMapping(path = "/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER')")
     @Operation(summary = "Search a users by unique id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "There is element with the specified id"),
@@ -53,6 +60,7 @@ public class UserController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Create a new users when parameters are passed correctly")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Element is created correctly"),
@@ -65,7 +73,7 @@ public class UserController {
     }
 
     @PutMapping
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Update a users that already exists in the database")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Element is updeted correctly"),
