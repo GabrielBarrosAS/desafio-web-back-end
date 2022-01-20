@@ -48,7 +48,7 @@ public class LanguageController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER')")
     @Operation(summary = "Create a new languages when parameters are passed correctly")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "400",description = "When a parameter is not in valid format"),

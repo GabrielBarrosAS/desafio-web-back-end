@@ -52,7 +52,7 @@ public class MoviesController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER')")
     @Operation(summary = "Create a new movies when parameters are passed correctly")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Element is created correctly"),
@@ -66,7 +66,7 @@ public class MoviesController {
     }
 
     @PutMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER')")
     @Operation(summary = "Update a movies that already exists in the database")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Element is updeted correctly"),
@@ -79,7 +79,7 @@ public class MoviesController {
 
     @DeleteMapping(path = "/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    @Operation(summary = "Delete a moviesx that already exists in the database")
+    @Operation(summary = "Delete a movies that already exists in the database")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Element is deleted correctly"),
             @ApiResponse(responseCode = "404", description = "Element not found")

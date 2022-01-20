@@ -52,7 +52,7 @@ public class CategoryController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER')")
     @Operation(summary = "Create a new category when parameters are passed correctly")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Element is created correctly"),
@@ -64,7 +64,7 @@ public class CategoryController {
     }
 
     @PutMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER')")
     @Operation(summary = "Update a category that already exists in the database")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Element is updeted correctly"),
